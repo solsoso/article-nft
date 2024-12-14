@@ -30,6 +30,7 @@ use anchor_spl::metadata::mpl_token_metadata::{
 pub struct MintNFT<'info> {
     #[account(mut)]
     pub owner: Signer<'info>,
+
     #[account(
         init,
         payer = owner,
@@ -38,6 +39,7 @@ pub struct MintNFT<'info> {
         mint::freeze_authority = mint_authority,
     )]
     pub mint: Account<'info, Mint>,
+
     #[account(
         init,
         payer = owner,
@@ -45,9 +47,11 @@ pub struct MintNFT<'info> {
         associated_token::authority = owner
     )]
     pub destination: Account<'info, TokenAccount>,
+
     #[account(mut)]
     /// CHECK: This account will be initialized by the metaplex program
     pub metadata: UncheckedAccount<'info>,
+    
     #[account(mut)]
     /// CHECK: This account will be initialized by the metaplex program
     pub master_edition: UncheckedAccount<'info>,
@@ -66,7 +70,7 @@ pub struct MintNFT<'info> {
 }
 
 impl<'info> MintNFT<'info> {
-    pub fn mint_nft(&mut self, bumps: &MintNFTBumps) -> Result<()> {
+    pub fn mint_nft(&mut self, bumps: &MintNFTBumps,  nft_name: String, nft_symbol: String, nft_uri: String) -> Result<()> {
 
         let metadata = &self.metadata.to_account_info();
         let master_edition = &self.master_edition.to_account_info();
@@ -114,9 +118,9 @@ impl<'info> MintNFT<'info> {
             }, 
             CreateMetadataAccountV3InstructionArgs {
                 data: DataV2 {
-                    name: "Mint Test".to_string(),
-                    symbol: "YAY".to_string(),
-                    uri: "".to_string(),
+                    name: nft_name,
+                    symbol: nft_symbol,
+                    uri: nft_uri,
                     seller_fee_basis_points: 0,
                     creators: Some(creator),
                     collection: Some(Collection {
@@ -145,7 +149,7 @@ impl<'info> MintNFT<'info> {
                 rent: None,
             },
             CreateMasterEditionV3InstructionArgs {
-                max_supply: Some(0),
+                max_supply: None,
             }
         );
         master_edition_account.invoke_signed(signer_seeds)?;

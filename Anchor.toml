@@ -5,11 +5,14 @@ seeds = false
 skip-lint = false
 resolution = true
 
-[programs.devnet]
-article_nft = "Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkg476zPFsLnS"
+# [programs.devnet]
+# article_nft = "Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkg476zPFsLnS"
+
+# [programs.localnet]
+# article_nft = "AGXjeAx1EeUjdvVsPhrLpEcwiD4ngnDwzcr5C8ykJ4Jz"
 
 [programs.localnet]
-article_nft = "AGXjeAx1EeUjdvVsPhrLpEcwiD4ngnDwzcr5C8ykJ4Jz"
+article_nft = "CdYjgMV8mkM3NUUFSabXFCWazrsVLRWwCYGnWTU8w8zx"
 
 [registry]
 url = "https://api.apr.dev"
